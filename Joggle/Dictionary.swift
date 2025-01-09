@@ -16,9 +16,9 @@ enum Dictionary {
         guard let contents = try? String(contentsOf: url, encoding: .utf8) else {
             fatalError("Couldn't load dictionary.txt")
         }
-        
+
         return Set(contents.components(separatedBy: .newlines))
-        }()
+    }()
 
     static func contains(_ word: String) -> Bool {
         contents.contains(word)

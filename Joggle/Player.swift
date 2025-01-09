@@ -56,6 +56,19 @@ class Player: ObservableObject {
     }
 
     func submit(in game: Game) -> String? {
+        let word = selectedTiles.map { game.tiles[$0] }.joined().lowercased()
+
+        guard usedWords.contains(word) == false else {
+            return "You used that word already."
+        }
+
+        if Dictionary.contains(word) {
+            usedWords.append(word)
+            selectedTiles.removeAll()
+        } else {
+            return "That isn't a valid word."
+        }
+
         return nil
     }
 }
