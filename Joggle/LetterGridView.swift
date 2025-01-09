@@ -13,6 +13,8 @@ struct LetterGridView: View {
 
     var columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
 
+    @State private var message: String?
+
     var body: some View {
         ZStack {
             LazyVGrid(columns: columns) {
@@ -23,12 +25,33 @@ struct LetterGridView: View {
                         letter: tile,
                         isSelected: player.selectedTiles.contains(index),
                         selectionColor: player.color) {
-                            _ = player.trySelecting(index, in: game)
+                            message = player.trySelecting(index, in: game)
                     }
                 }
             }
+            .disabled(message != nil)
+
+            if let message {
+                VStack {
+                    Text(message)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.white)
+                        .font(.headline)
+
+                    Button("Ok", action: dismissMessage)
+                        .buttonStyle(.borderedProminent)
+                }
+                .padding()
+                .background(.black.opacity(0.8))
+                .clipShape(.rect(cornerRadius: 10))
+                .transition(.scale)
+            }
         }
         .aspectRatio(1, contentMode: .fit)
+    }
+
+    func dismissMessage() {
+        withAnimation { message = nil }
     }
 }
 
