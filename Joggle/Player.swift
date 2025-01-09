@@ -23,7 +23,28 @@ class Player: ObservableObject {
     }
 
     func trySelecting(_ index: Int, in game: Game) -> String? {
-        selectedTiles.append(index)
+        if selectedTiles.last == index && selectedTiles.count >= 3 {
+            return submit(in: game)
+        }
+
+        if let indexLocation = selectedTiles.firstIndex(of: index) {
+            if selectedTiles.count == 1 {
+                selectedTiles.removeLast()
+            } else {
+                selectedTiles.removeLast(selectedTiles.count - indexLocation - 1)
+            }
+        } else {
+            tryAppending(index)
+        }
+
+        return nil
+    }
+
+    func tryAppending(_ newIndex: Int) {
+
+    }
+
+    func submit(in game: Game) -> String? {
         return nil
     }
 }
