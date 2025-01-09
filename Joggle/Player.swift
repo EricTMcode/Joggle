@@ -41,7 +41,18 @@ class Player: ObservableObject {
     }
 
     func tryAppending(_ newIndex: Int) {
+        guard let lastIndex = selectedTiles.last else {
+            selectedTiles.append(newIndex)
+            return
+        }
 
+        let lastPosition = (row: lastIndex / 4, col: lastIndex % 4)
+        let newPosition = (row: newIndex / 4, col: newIndex % 4)
+        let positionDifference = (row: abs(newPosition.row - lastPosition.row), col: abs(newPosition.col - lastPosition.col))
+
+        if max(positionDifference.row, positionDifference.col) == 1 {
+            selectedTiles.append(newIndex)
+        }
     }
 
     func submit(in game: Game) -> String? {
