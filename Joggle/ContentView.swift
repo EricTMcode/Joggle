@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var game = Game()
+
     var body: some View {
         VStack(spacing: 60) {
-            LetterGridView()
+            LetterGridView(player: game.player2, game: game)
                 .rotationEffect(.degrees(180))
 
-            LetterGridView()
+            LetterGridView(player: game.player1, game: game)
         }
         .padding(10)
     }
