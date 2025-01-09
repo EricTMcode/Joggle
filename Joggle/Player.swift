@@ -64,6 +64,7 @@ class Player: ObservableObject {
 
         if Dictionary.contains(word) {
             usedWords.append(word)
+            game.add(word, for: self)
             selectedTiles.removeAll()
         } else {
             return "That isn't a valid word."

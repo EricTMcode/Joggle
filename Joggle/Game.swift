@@ -5,6 +5,7 @@
 //  Created by Eric on 09/01/2025.
 //
 
+import Combine
 import Foundation
 
 class Game: ObservableObject {
@@ -32,6 +33,10 @@ class Game: ObservableObject {
     var player2 = Player(color: .orange)
     var tiles = [String]()
 
+    @Published var timeRemaining = 0.0
+    @Published var showingResults = false
+    private var timer: AnyCancellable?
+
     init() {
         reset()
     }
@@ -44,5 +49,28 @@ class Game: ObservableObject {
         scores.removeAll()
         player1.reset()
         player2.reset()
+
+        timer = Timer
+            .publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .sink(receiveValue: update)
+
+        timeRemaining = 180
+    }
+
+    func update(_ newTime: Date) {
+        guard showingResults == false else { return }
+
+        if timeRemaining > 0 {
+            timeRemaining -= 1
+        } else {
+            showingResults = true
+        }
+    }
+
+    func add(_ word: String, for player: Player) {
+        if scores[word] == nil {
+            scores[word] = player
+        }
     }
 }
