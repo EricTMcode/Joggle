@@ -55,7 +55,7 @@ class Game: ObservableObject {
             .autoconnect()
             .sink(receiveValue: update)
 
-        timeRemaining = 180
+        timeRemaining = /*180*/ 20
     }
 
     func update(_ newTime: Date) {
